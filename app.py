@@ -1,5 +1,3 @@
-import os
-import math
 import torch
 from torch.nn import BCEWithLogitsLoss
 from transformers import XLNetTokenizer, XLNetModel, XLNetLMHeadModel, XLNetConfig
@@ -99,8 +97,6 @@ class XLNetForMultiLabelSequenceClassification(torch.nn.Module):
 model = XLNetForMultiLabelSequenceClassification()
 
 
-
-
 if torch.cuda.is_available():
     map_location=lambda storage, loc: storage.cuda()
 else:
@@ -150,7 +146,6 @@ def predict():
         print(mytext)
         prediction = predictions(mytext)
     return render_template('index.html', prediction_text= prediction)
-
 
 if __name__ == "__main__":
     app.run(debug=True)
