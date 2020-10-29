@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<style>
+</style>
+<html >
+<!--From https://codepen.io/frytyler/pen/EGdtg-->
+<head>
+  <meta charset="UTF-8">
+  <title>My App</title>
+  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+
+</head>
+
+<body style="background-color:#ECF3F3;">
+ <div class="login">
+ <h1 style="color:blue;">Quora Spam Detection Predictions</h1>
+     <form action = "{{ url_for('predict')}}" method = "post" enctype="multipart/form-data">
+        Enter Quora question here:
+         <input type="text" name="question", maxlength="500", size="50"><BR><BR>
+        <input type="submit" value="Predict">
+    </form>
+   <br>
+   <br>
+     <b>{{ prediction_text }}</b>
+ </div>
+</body>
+</html>
