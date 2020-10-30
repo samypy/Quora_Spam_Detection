@@ -7,6 +7,17 @@ Original file is located at
     https://colab.research.google.com/drive/1M-NP2Dkmvg4qn9peltGlD4cxUR8qEHjw
 """
 
+from keras.models import Sequential
+from keras.layers import LSTM, Dense, Dropout, Embedding, CuDNNLSTM, Bidirectional
+from keras.preprocessing.text import Tokenizer
+from keras.preprocessing.sequence import pad_sequences
+from sklearn.model_selection import train_test_split
+from keras.callbacks import ModelCheckpoint
+from tensorflow.keras.callbacks import Callback
+from tensorflow.keras.callbacks import EarlyStopping
+from keras.models import load_model
+from sklearn.metrics import roc_auc_score
+from tqdm import tqdm
 import pandas as pd
 import numpy as np
 
@@ -19,19 +30,13 @@ df_00 = df_0[0:df_1.shape[0]]
 df_00.reset_index(inplace=True)
 df_10 = pd.concat([df_1,df_00],axis=0)
 
-from sklearn.model_selection import train_test_split
+#Train/Test Split
 df_train,df_test=train_test_split(df_10,test_size=0.2,random_state=2)
 
 !unzip '/content/drive/My Drive/glove.840B.300d.zip'
 
 # Commented out IPython magic to ensure Python compatibility.
 # %tensorflow_version 1.x
-
-from keras.models import Sequential
-from keras.layers import LSTM, Dense, Dropout, Embedding, CuDNNLSTM, Bidirectional
-from keras.preprocessing.text import Tokenizer
-from keras.preprocessing.sequence import pad_sequences
-from tqdm import tqdm
 
 token = Tokenizer()
 token.fit_on_texts(df_train['question_text'])
@@ -64,7 +69,7 @@ model.add(Dropout(0.3))
 model.add(Dense(1,activation = 'sigmoid'))
 model.compile(optimizer='adam',loss='binary_crossentropy',metrics = ['accuracy'])
 
-from keras.callbacks import ModelCheckpoint
+
 outputFolder = '/content/drive/My Drive/Quora_glove_model/'
 filepath=outputFolder+"/weights-{epoch:02d}-{val_accuracy:.4f}.h5"
 checkpoint = ModelCheckpoint(filepath, monitor='val_loss', 
@@ -73,15 +78,13 @@ checkpoint = ModelCheckpoint(filepath, monitor='val_loss',
                              save_weights_only=False, 
                              mode='auto')
 
-from tensorflow.keras.callbacks import Callback
-from tensorflow.keras.callbacks import EarlyStopping
 earlystop = EarlyStopping(monitor='val_loss', 
                           min_delta=0.01, patience=10,
                           verbose=1, mode='auto')
 
 model.fit(pad_seq, df_train['target'],epochs = 50,batch_size=256,validation_split=0.2,callbacks=[earlystop,checkpoint])
 
-from keras.models import load_model
+
 model = load_model('/content/drive/My Drive/Quora_glove_model/weights-04-0.9022.h5')
 
 token.fit_on_texts(df_test['question_text'])
@@ -91,6 +94,5 @@ test_pad_seq = pad_sequences(sequences,maxlen=300)
 
 predictions=model.predict(test_pad_seq)
 
-from sklearn.metrics import roc_auc_score
 roc_auc_score(np.asarray(df_test['target']),predictions)
 
