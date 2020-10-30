@@ -15,6 +15,11 @@ from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing import sequence
 from tensorflow.keras.layers import LSTM, Activation, Dense, Dropout, Input, Embedding
 from tensorflow.keras.models import Model
+from tensorflow.keras.callbacks import ModelCheckpoint
+from tensorflow.keras.callbacks import Callback
+from tensorflow.keras.callbacks import EarlyStopping
+from keras.models import load_model
+from sklearn.metrics import roc_auc_score
 
 df = pd.read_csv(r'/content/drive/My Drive/Quara Spam filter/train.csv')
 
@@ -89,7 +94,7 @@ sequences_test = tok.texts_to_sequences(x_val)
 sequences_matrix_test = sequence.pad_sequences(sequences_test,
                                                maxlen=max_len)
 
-from tensorflow.keras.callbacks import ModelCheckpoint
+
 outputFolder = '/content/drive/My Drive/Quora_Base_Model/'
 filepath=outputFolder+"/weights-{epoch:02d}-{val_accuracy:.4f}.h5"
 checkpoint = ModelCheckpoint(filepath, monitor='val_loss', 
@@ -98,8 +103,7 @@ checkpoint = ModelCheckpoint(filepath, monitor='val_loss',
                              save_weights_only=False, 
                              mode='auto', save_freq='epoch')
 
-from tensorflow.keras.callbacks import Callback
-from tensorflow.keras.callbacks import EarlyStopping
+
 earlystop = EarlyStopping(monitor='val_loss', 
                           min_delta=0.01, patience=5,
                           verbose=1, mode='auto')
@@ -107,7 +111,7 @@ earlystop = EarlyStopping(monitor='val_loss',
 model.fit(sequences_matrix_train,y_train.values,batch_size=256,
           epochs=50,validation_data=(sequences_matrix_test,y_val.values),callbacks=[earlystop,checkpoint])
 
-from keras.models import load_model
+
 model = load_model('/content/drive/My Drive/Quora_Base_Model/weights-01-0.8945.h5')
 
 sequences_test1 = tok.texts_to_sequences(test['question_text'])
@@ -115,8 +119,6 @@ sequences_matrix_test1 = sequence.pad_sequences(sequences_test1,
                                                maxlen=max_len)
 
 predictions=model.predict(sequences_matrix_test1)
-
-from sklearn.metrics import roc_auc_score
 
 roc_auc_score(np.asarray(test['target']),predictions)
 
