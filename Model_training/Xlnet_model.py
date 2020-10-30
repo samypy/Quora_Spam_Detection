@@ -9,7 +9,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import roc_auc_score
 from sklearn.metrics import confusion_matrix
-from sklearn.metrics import f1_score
 import pandas as pd
 import numpy as np
 from tqdm import tqdm, trange
@@ -386,11 +385,7 @@ num_labels = len(label_cols)
 pred_probs = generate_predictions(model, test, num_labels, device=device, batch_size=32)
 pred_probs
 
-test['pred'] = np.where(pred_probs > 0.5, 1, 0)
+roc_auc_score(np.asarray(test['target']), pred_probs)
+confusion_matrix(np.asarray(test['target']), pred_probs.round())
+accuracy_score(np.asarray(test['target']), pred_probs.round())
 
-test.tail(50)
-
-confusion_matrix(test['target'], test['pred'])
-roc_auc_score(test['target'], test['pred'])
-accuracy_score(test['target'], test['pred'])
-f1_score(test['target'], test['pred'])
