@@ -24,5 +24,5 @@ XLnet Model : https://drive.google.com/file/d/1--2NXb5ZXzGaW0EZVWdpDoA2K7wWSD-I/
     test_accuracy: 0.9437157117518459
     roc_auc_score - 0.9820409516568424
 
-Xlnet Mode outperformed other two models and hence we have considered XLnet to solve our problem statement.
+Xlnet Model outperformed other two models and hence we have considered XLnet to solve our problem statement.
 
