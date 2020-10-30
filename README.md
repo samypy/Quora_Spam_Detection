@@ -6,7 +6,8 @@ https://www.dropbox.com/sh/kpf9z73woodfssv/AAAw1_JIzpuVvwteJCma0xMla?dl=0
 
 Please use following link to download pretrained model and place it under model folder.
 
-
+Base Model(LSTM) : https://drive.google.com/file/d/1-C5USKtCUZ3_VeOifmA90vTAqK6VnOSF/view?usp=sharing
+Bidirectional_LSTM with pre trained Glove Embedding: https://drive.google.com/file/d/1-9i2nQqiBT0YY1kVi6Mne1c0FzSAH8iD/view?usp=sharing
 XLnet Model : https://drive.google.com/file/d/1--2NXb5ZXzGaW0EZVWdpDoA2K7wWSD-I/view?usp=sharing
 
 #Model Comparision:
