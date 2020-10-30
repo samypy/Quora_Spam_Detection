@@ -18,5 +18,8 @@ https://drive.google.com/file/d/1--2NXb5ZXzGaW0EZVWdpDoA2K7wWSD-I/view?usp=shari
     roc_auc_score - 0.6893690089633167
     
 3) XLnet Model:
+    Val_loss: 0.014194569230107968
     roc_auc_score - 0.9820409516568424
+
+Xlnet Mode outperformed other two models and hence we have considered XLnet to solve our problem statement.
 
